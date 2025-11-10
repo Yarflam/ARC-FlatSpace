@@ -14,6 +14,8 @@ The ARC Prize represents one of the most challenging benchmarks in artificial in
 
 This paper introduces the "flat space" representation system, a binary tensor approach that standardizes grid representation and enables more efficient pattern detection and rule application mechanisms.
 
+**Development Status**: The flat space approach is currently under active development and represents the next iteration of our research following extensive experimentation with distance-based attention and PRK systems. While the theoretical framework is established, practical implementation and validation are ongoing.
+
 ## 2. The Flat Space Representation System
 
 ### 2.1 Core Concept
@@ -103,248 +105,30 @@ The rationale centers on the discrete nature of ARC problems, which may benefit 
 
 Before developing the flat space representation, two distinct approaches were explored, each providing valuable insights into ARC solving methodologies while revealing fundamental limitations.
 
-#### 6.1.1 Distance-Based Attention System (GradLinExpert)
+#### 6.1.1 Distance-Based Attention System
 
-The first approach implemented a novel attention mechanism based on spatial distances between grid positions. The system operated through multiple agents that progressively transformed inputs by adding transformation layers.
+The first approach implemented a novel attention mechanism based on spatial distances between grid positions, operating through multiple agents with progressive transformation layers. While successfully reproducing certain complex ARC rules, it failed to generalize beyond training examples.
 
-**Core Architecture:**
+**Key findings**: Distance-based attention alone proved insufficient for abstract reasoning, though it effectively captured spatial relationships.
 
-```python
-class GradLinExpert(nn.Module):
-    VERSION = '1.0.0'
-    def __init__(
-        self,
-        lsize:int = 9,
-        num_classes:int = 11,
-    ):
-        super().__init__()
-        self.params = [ lsize, num_classes ]
-        # Props
-        self.register_buffer('lsize', torch.tensor(lsize, dtype=torch.int))
-        self.register_buffer('num_classes', torch.tensor(num_classes, dtype=torch.long))
-        # Weights
-        self.encoder = nn.Parameter(torch.ones(lsize, num_classes))
-        self.attention = nn.Parameter(torch.rand(lsize * (lsize - 1) // 2) * (num_classes-1))
-        self.decoder = nn.Parameter(torch.ones(lsize * (lsize - 1) // 2, num_classes))
-        # Caches
-        self.attention_pos = self.get_pairwise_positions(lsize)
-
-    def forward(self, inputs):
-        e_min = 1e-8
-        self.attention_pos = self.attention_pos.to(inputs.device)
-
-        # Encoder
-        encoded_values = inputs * self.encoder
-
-        # Attention
-        def compute_distance(a, b, c):
-            return torch.sqrt((a-b)**2 + (a-c)**2 + e_min)
-        attention = compute_distance(
-            self.attention[:, None], # Target
-            encoded_values[:, self.attention_pos[:, 0]], # Left
-            encoded_values[:, self.attention_pos[:, 1]], # Right
-        )
-        at_max = torch.amax(attention, dim=(1, 2), keepdim=True)
-        attention = attention / (at_max + e_min)
-        attention.neg_().add_(1)
-
-        # Decoder
-        attention.mul_(self.decoder)
-
-        # Projection
-        projection = torch.zeros(inputs.shape[0], self.lsize, self.num_classes, device=inputs.device)
-        projection.scatter_add_(1, self.attention_pos[None, :, 0, None].expand(attention.shape), attention)
-        projection.scatter_add_(1, self.attention_pos[None, :, 1, None].expand(attention.shape), attention)
-        pj_max = torch.amax(projection, dim=(1, 2), keepdim=True)
-        projection = projection / (pj_max + e_min)
-        return projection
-```
-
-**Key Mechanisms:**
-
-1. **Distance-Based Attention Formula**: The attention mechanism computes distances between coupled values using:
-   ```
-   distance = sqrt((target - left)² + (target - right)² + ε)
-   ```
-   where positions are paired systematically (e.g., for 2×2 grid: (0,0)↔(1,0), (0,0)↔(0,1), (0,0)↔(1,1), then (1,0)↔(0,1), etc.)
-
-2. **Layer Calculation Formula**: The number of transformation layers was determined by:
-   ```
-   layers = 0.4 × distance_max
-   ```
-   where distance_max represents the maximum number of pixel changes between input and target grids.
-
-**Limitations**: While this approach successfully reproduced certain complex ARC rules, it failed to generalize beyond training examples, suggesting that distance-based attention alone was insufficient for abstract reasoning.
-
-**Demonstration Examples:**
-
-<img src="demos/distance_attention_examples/attention.gif" width="250" alt="Attention Heat Map">
-
-*Figure 1: Attention heat map visualization showing the distance-based attention mechanism in action. Brighter areas indicate higher attention values between coupled grid positions.*
-
-**Version 2 Results:**
-- Puzzle ID: 00d62c1b
-  
-  <img src="demos/distance_attention_examples/v2-00d62c1b.gif" width="250" alt="Distance Attention v2 - 00d62c1b">
-  
-  *Figure 2: Progressive transformation using distance-based attention for puzzle 00d62c1b.*
-
-- Puzzle ID: 09629e4f
-  
-  <img src="demos/distance_attention_examples/v2-09629e4f.gif" width="250" alt="Distance Attention v2 - 09629e4f">
-  
-  *Figure 3: Transformation sequence for puzzle 09629e4f showing layer-by-layer processing.*
-
-**Version 3 Results:**
-- Puzzle ID: 0e671a1a (Multiple examples and test case)
-  
-  <img src="demos/distance_attention_examples/v3-0e671a1a-ex0.gif" width="250" alt="v3 Example 0">
-  
-  *Figure 4: Example 0 - Initial pattern recognition and transformation initiation.*
-  
-  <img src="demos/distance_attention_examples/v3-0e671a1a-ex1.gif" width="250" alt="v3 Example 1">
-  
-  *Figure 5: Example 1 - Intermediate transformation steps with attention refinement.*
-  
-  <img src="demos/distance_attention_examples/v3-0e671a1a-ex2.gif" width="250" alt="v3 Example 2">
-  
-  *Figure 6: Example 2 - Complex pattern handling with multiple attention layers.*
-  
-  <img src="demos/distance_attention_examples/v3-0e671a1a-ex3.gif" width="250" alt="v3 Example 3">
-  
-  *Figure 7: Example 3 - Final training example showing convergence behavior.*
-  
-  <img src="demos/distance_attention_examples/v3-0e671a1a-t0.gif" width="250" alt="v3 Test Case">
-  
-  *Figure 8: Test case application demonstrating the model's attempt to generalize learned patterns.*
+*→ Detailed documentation: [DISTANCE_ATTENTION.md](DISTANCE_ATTENTION.md)*
 
 #### 6.1.2 Pixel Relative Knowledge (PRK) System
 
-The second approach introduced a cellular automaton-inspired system that analyzed local pixel environments to determine transformation priorities.
+The second approach introduced a cellular automaton-inspired system analyzing local pixel environments to determine transformation priorities. As a classical algorithm, PRK produces deterministic, reproducible results through systematic rule application.
 
-**Core PRK Algorithm:**
+**Key findings**: Excellent at identifying transformation zones and providing natural propagation mechanisms, but struggled with generalization and meta-rule representation.
 
-```python
-def get_prk_view_differentiable(inputs, fill=10.0):
-    """Fully differentiable version that matches original logic 100%"""
-    batch_size, channels, height, width = inputs.shape
-    device = inputs.device
-    
-    # Pad input to handle borders with fill value
-    padded_ch0 = torch.nn.functional.pad(inputs[:, 0], (1, 1, 1, 1), value=fill)
-    padded_ch1 = torch.nn.functional.pad(inputs[:, 1], (1, 1, 1, 1), value=fill)
-    
-    # Extract all 3x3 patches using unfold
-    patches_ch0 = padded_ch0.unfold(1, 3, 1).unfold(2, 3, 1)  # (batch, h, w, 3, 3)
-    patches_ch1 = padded_ch1.unfold(1, 3, 1).unfold(2, 3, 1)  # (batch, h, w, 3, 3)
-    
-    # Reshape to (batch, h, w, 9) for 3x3 -> 9 pixels
-    pixels_ch0 = patches_ch0.reshape(batch_size, height, width, 9)
-    pixels_ch1 = patches_ch1.reshape(batch_size, height, width, 9)
-    
-    # Stack to get (batch, h, w, 9, 2)
-    pixels = torch.stack([pixels_ch0, pixels_ch1], dim=-1)
-    
-    # === Diversity calculation (differentiable) ===
-    ch0_values = pixels[..., 0]  # (batch, h, w, 9)
-    
-    # Create pairwise difference matrix to find unique values
-    pairwise_diff = (ch0_values.unsqueeze(-1) - ch0_values.unsqueeze(-2)).abs()
-    
-    # Values are "same" if difference < epsilon
-    same_mask = (pairwise_diff < 1e-6).float()
-    
-    # Calculate unique count and change detection
-    # [Additional logic for state classification: 0.0-4.0 based on diversity and changes]
-    
-    return result, pixels
-```
+*→ Detailed documentation: [PRK_SYSTEM.md](PRK_SYSTEM.md)*
 
-**PRK State Classification System:**
-- **State 0.0**: No change + low diversity (< 2 unique values)
-- **State 1.0**: No change + high diversity (≥ 2 unique values)  
-- **State 2.0**: Has change + center pixel unchanged
-- **State 3.0**: Has change + center changed + low diversity
-- **State 4.0**: Has change + center changed + high diversity
+#### 6.1.3 Common Limitations and Insights
 
-**Architecture Design:**
-The PRK system operated on a multi-layered representation:
-- X binary one-hot layers (10 classes)
-- Annotation layer for change propagation
-- PRK analysis layer
+Both approaches revealed critical challenges:
+- Limited generalization beyond training examples
+- Insufficient meta-rule representation capabilities
+- Need for more fundamental representation systems
 
-Multiple expert modules (simple linear transformations using CNN2D structure) sequentially processed these layers to propagate changes from "hot zones" (high PRK diversity areas).
-
-**Cellular Automaton Inspiration**: This approach drew from cellular automaton principles, where local updates propagate globally, creating emergent behaviors suitable for pattern transformation tasks.
-
-**Demonstration Examples:**
-
-**Version 1 Results:**
-- Puzzle ID: 09c534e7
-  
-  <img src="demos/prk_examples/v1-09c534e7-ex0.gif" width="250" alt="PRK v1 Example 0">
-  
-  *Figure 9: PRK v1 Example 0 - Initial cellular automaton-based transformation showing hot zone identification and propagation.*
-  
-  <img src="demos/prk_examples/v1-09c534e7-ex1.gif" width="250" alt="PRK v1 Example 1">
-  
-  *Figure 10: PRK v1 Example 1 - Continuation of the transformation sequence with local environment analysis.*
-  
-  <img src="demos/prk_examples/v1-09c534e7-ex2.gif" width="250" alt="PRK v1 Example 2">
-  
-  *Figure 11: PRK v1 Example 2 - Final example showing the complete propagation cycle from diversity detection to pattern completion.*
-
-**Version 2 Results:**
-- Puzzle ID: 007bbfb7
-  
-  <img src="demos/prk_examples/v2-007bbfb7-ex1.gif" width="250" alt="PRK v2 - 007bbfb7 ex1">
-  
-  *Figure 12: PRK v2 refined algorithm applied to puzzle 007bbfb7, demonstrating improved state classification.*
-
-- Puzzle ID: 00d62c1b (Multiple examples)
-  
-  <img src="demos/prk_examples/v2-00d62c1b-ex0.gif" width="250" alt="PRK v2 Example 0">
-  
-  *Figure 13: PRK v2 Example 0 for puzzle 00d62c1b - Enhanced diversity calculation and change detection.*
-  
-  <img src="demos/prk_examples/v2-00d62c1b-ex1.gif" width="250" alt="PRK v2 Example 1">
-  
-  *Figure 14: PRK v2 Example 1 - Progressive transformation with improved expert module coordination.*
-  
-  <img src="demos/prk_examples/v2-00d62c1b-ex2.gif" width="250" alt="PRK v2 Example 2">
-  
-  *Figure 15: PRK v2 Example 2 - Complex pattern propagation through multiple expert layers.*
-  
-  <img src="demos/prk_examples/v2-00d62c1b-ex3.gif" width="250" alt="PRK v2 Example 3">
-  
-  *Figure 16: PRK v2 Example 3 - Advanced state classification handling with center-change detection.*
-  
-  <img src="demos/prk_examples/v2-00d62c1b-ex4.gif" width="250" alt="PRK v2 Example 4">
-  
-  *Figure 17: PRK v2 Example 4 - Final training example showcasing full system capabilities.*
-
-**Note on Version 3 Representation**: In the development of PRK v3, Chinese characters were adopted for visualization purposes instead of emojis due to GIF generation compatibility issues. These characters serve purely as symbolic representations and provide sufficient visual diversity within single character constraints to effectively display the various PRK states and transformations.
-
-#### 6.1.3 Insights and Limitations
-
-Both approaches provided valuable insights:
-
-**Distance-Based Attention Strengths:**
-- Successfully captured spatial relationships between grid elements
-- Effective at reproducing specific transformation rules
-- Computationally efficient for local pattern recognition
-
-**PRK System Strengths:**
-- Excellent at identifying transformation priority zones
-- Natural propagation mechanism for changes
-- Robust local environment analysis
-
-**Common Generalization Challenges:**
-- Limited ability to abstract beyond training examples
-- Difficulty in handling novel rule combinations
-- Insufficient representation of meta-rules governing transformations
-
-These experimental approaches ultimately led to the realization that a more fundamental representation system was needed, motivating the development of the flat space approach.
+These limitations motivated the development of the flat space approach, which addresses representation standardization and provides a foundation for more robust rule discovery mechanisms.
 
 ### 6.2 Scaling Issues
 

@@ -8,7 +8,7 @@
 
 ## Abstract
 
-This research paper presents a novel approach to solving ARC (Abstraction and Reasoning Corpus) Prize challenges through a "flat space" representation system. We propose a binary tensor-based methodology that converts 2D grid problems into 1D representations, enabling more efficient pattern recognition and rule discovery. This approach addresses key challenges in current ARC solving methodologies, including scaling issues, rule representation, and generalization problems.
+This research paper presents a novel approach to solving [ARC (Abstraction and Reasoning Corpus) Prize](ARC_PRIZE_CHALLENGE.md) challenges through a "flat space" representation system. We propose a binary tensor-based methodology that converts 2D grid problems into 1D representations, enabling more efficient pattern recognition and rule discovery. This approach addresses key challenges in current ARC solving methodologies, including scaling issues, rule representation, and generalization problems.
 
 ## Introduction
 
@@ -135,7 +135,7 @@ These limitations motivated the development of the flat space approach, which ad
 ### The Scaling Problem
 
 ARC Prize 2025 approaches have revealed critical scaling challenges:
-- Grid sizes ranging from 3x3 to approximately 30x30
+- Grid sizes ranging from 1x1 to 30x30
 - Computational overhead in dynamic scaling approaches
 - Resource consumption in training optimization across multiple scales
 

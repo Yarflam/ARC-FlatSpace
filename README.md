@@ -219,6 +219,48 @@ The approach's natural extension to temporal problems positions it well for futu
 
 *This research paper provides a comprehensive framework for approaching ARC Prize challenges through novel representation methods. The flat space concept offers both theoretical advantages and practical implementation benefits for advancing artificial intelligence reasoning capabilities.*
 
+## Dataset
+
+**ARC Price 2024**
+
+- Github
+    - [arc-prize-2024-data.json](inputs/arc-prize-2024-data.json)
+
+**ARC Prize 2 2025**
+
+- Github
+    - [arc-prize-2025-data.json](inputs/arc-prize-2025-data.json)
+- Kaggle Notebook
+    - Training
+        - [arc-agi_training_challenges.json](inputs/arc-agi_training_challenges.json)
+        - [arc-agi_training_solutions.json](inputs/arc-agi_training_solutions.json)
+    - Evaluation
+        - [arc-agi_evaluation_challenges.json](inputs/arc-agi_evaluation_challenges.json)
+        - [arc-agi_evaluation_solutions.json](inputs/arc-agi_evaluation_solutions.json)
+    - Test
+        - [arc-agi_test_challenges.json](inputs/arc-agi_test_challenges.json)
+- Specific features
+
+**Custom**
+
+- Puzzle one-shot
+    - Basic
+        - [one_puzzle.json](inputs/one_puzzle.json)
+    - Fill boxes
+        - [fill_one_challenges.json](inputs/dev/fill_one_challenges.json)
+        - [fill_one_solutions.json](inputs/dev/fill_one_solutions.json)
+- Specific challenges
+    - `inputs/samples/*.json` (source: [CDG](https://cdg.openai.nl/))
+
+## ARC Prize Community Links
+
+Here you can find some interesting links about the ARC Prize challenge. The community is creative.
+
+- [CAPED Research Tool](https://caped.ferenczi.eu/)
+- [ARC-CDG: The Curriculum Dataset Generator](https://cdg.openai.nl/)
+- [Colorblindness Aid & AI Reasoning Analysis](https://arc.gptpluspro.com/) -:- [mirror link](https://arc.markbarney.net/)
+- [Mission Control 2050 (ARC with emojis)](https://sfmc.bhhc.us/officer-track) -:- [mirror link](https://sfmc.markbarney.net/)
+
 ## License
 
 [MIT-0 Ethical](https://github.com/Yarflam/MIT-0-Ethical-License) - **Ethical Attribution Request (Non-Binding)**

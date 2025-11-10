@@ -219,7 +219,7 @@ The approach's natural extension to temporal problems positions it well for futu
 
 *This research paper provides a comprehensive framework for approaching ARC Prize challenges through novel representation methods. The flat space concept offers both theoretical advantages and practical implementation benefits for advancing artificial intelligence reasoning capabilities.*
 
-## Dataset
+## Datasets
 
 **ARC Price 2024**
 
@@ -264,3 +264,5 @@ Here you can find some interesting links about the ARC Prize challenge. The comm
 ## License
 
 [MIT-0 Ethical](https://github.com/Yarflam/MIT-0-Ethical-License) - **Ethical Attribution Request (Non-Binding)**
+
+[![License: MIT-0-Ethical](https://img.shields.io/badge/License-MIT--0--Ethical-brightgreen.svg)](https://github.com/Yarflam/MIT-0-Ethical-License/blob/main/LICENSE.md)

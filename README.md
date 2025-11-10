@@ -178,34 +178,44 @@ class GradLinExpert(nn.Module):
 
 **Demonstration Examples:**
 
-![Attention Heat Map](demos/distance_attention_examples/attention.gif)
+<img src="demos/distance_attention_examples/attention.gif" width="250" alt="Attention Heat Map">
+
 *Figure 1: Attention heat map visualization showing the distance-based attention mechanism in action. Brighter areas indicate higher attention values between coupled grid positions.*
 
 **Version 2 Results:**
 - Puzzle ID: 00d62c1b
-  ![Distance Attention v2 - 00d62c1b](demos/distance_attention_examples/v2-00d62c1b.gif)
+  
+  <img src="demos/distance_attention_examples/v2-00d62c1b.gif" width="250" alt="Distance Attention v2 - 00d62c1b">
+  
   *Figure 2: Progressive transformation using distance-based attention for puzzle 00d62c1b.*
 
 - Puzzle ID: 09629e4f
-  ![Distance Attention v2 - 09629e4f](demos/distance_attention_examples/v2-09629e4f.gif)
+  
+  <img src="demos/distance_attention_examples/v2-09629e4f.gif" width="250" alt="Distance Attention v2 - 09629e4f">
+  
   *Figure 3: Transformation sequence for puzzle 09629e4f showing layer-by-layer processing.*
 
 **Version 3 Results:**
 - Puzzle ID: 0e671a1a (Multiple examples and test case)
   
-  ![v3 Example 0](demos/distance_attention_examples/v3-0e671a1a-ex0.gif)
+  <img src="demos/distance_attention_examples/v3-0e671a1a-ex0.gif" width="250" alt="v3 Example 0">
+  
   *Figure 4: Example 0 - Initial pattern recognition and transformation initiation.*
   
-  ![v3 Example 1](demos/distance_attention_examples/v3-0e671a1a-ex1.gif)
+  <img src="demos/distance_attention_examples/v3-0e671a1a-ex1.gif" width="250" alt="v3 Example 1">
+  
   *Figure 5: Example 1 - Intermediate transformation steps with attention refinement.*
   
-  ![v3 Example 2](demos/distance_attention_examples/v3-0e671a1a-ex2.gif)
+  <img src="demos/distance_attention_examples/v3-0e671a1a-ex2.gif" width="250" alt="v3 Example 2">
+  
   *Figure 6: Example 2 - Complex pattern handling with multiple attention layers.*
   
-  ![v3 Example 3](demos/distance_attention_examples/v3-0e671a1a-ex3.gif)
+  <img src="demos/distance_attention_examples/v3-0e671a1a-ex3.gif" width="250" alt="v3 Example 3">
+  
   *Figure 7: Example 3 - Final training example showing convergence behavior.*
   
-  ![v3 Test Case](demos/distance_attention_examples/v3-0e671a1a-t0.gif)
+  <img src="demos/distance_attention_examples/v3-0e671a1a-t0.gif" width="250" alt="v3 Test Case">
+  
   *Figure 8: Test case application demonstrating the model's attempt to generalize learned patterns.*
 
 #### 6.1.2 Pixel Relative Knowledge (PRK) System
@@ -272,35 +282,45 @@ Multiple expert modules (simple linear transformations using CNN2D structure) se
 **Version 1 Results:**
 - Puzzle ID: 09c534e7
   
-  ![PRK v1 Example 0](demos/prk_examples/v1-09c534e7-ex0.gif)
+  <img src="demos/prk_examples/v1-09c534e7-ex0.gif" width="250" alt="PRK v1 Example 0">
+  
   *Figure 9: PRK v1 Example 0 - Initial cellular automaton-based transformation showing hot zone identification and propagation.*
   
-  ![PRK v1 Example 1](demos/prk_examples/v1-09c534e7-ex1.gif)
+  <img src="demos/prk_examples/v1-09c534e7-ex1.gif" width="250" alt="PRK v1 Example 1">
+  
   *Figure 10: PRK v1 Example 1 - Continuation of the transformation sequence with local environment analysis.*
   
-  ![PRK v1 Example 2](demos/prk_examples/v1-09c534e7-ex2.gif)
+  <img src="demos/prk_examples/v1-09c534e7-ex2.gif" width="250" alt="PRK v1 Example 2">
+  
   *Figure 11: PRK v1 Example 2 - Final example showing the complete propagation cycle from diversity detection to pattern completion.*
 
 **Version 2 Results:**
 - Puzzle ID: 007bbfb7
-  ![PRK v2 - 007bbfb7 ex1](demos/prk_examples/v2-007bbfb7-ex1.gif)
+  
+  <img src="demos/prk_examples/v2-007bbfb7-ex1.gif" width="250" alt="PRK v2 - 007bbfb7 ex1">
+  
   *Figure 12: PRK v2 refined algorithm applied to puzzle 007bbfb7, demonstrating improved state classification.*
 
 - Puzzle ID: 00d62c1b (Multiple examples)
   
-  ![PRK v2 Example 0](demos/prk_examples/v2-00d62c1b-ex0.gif)
+  <img src="demos/prk_examples/v2-00d62c1b-ex0.gif" width="250" alt="PRK v2 Example 0">
+  
   *Figure 13: PRK v2 Example 0 for puzzle 00d62c1b - Enhanced diversity calculation and change detection.*
   
-  ![PRK v2 Example 1](demos/prk_examples/v2-00d62c1b-ex1.gif)
+  <img src="demos/prk_examples/v2-00d62c1b-ex1.gif" width="250" alt="PRK v2 Example 1">
+  
   *Figure 14: PRK v2 Example 1 - Progressive transformation with improved expert module coordination.*
   
-  ![PRK v2 Example 2](demos/prk_examples/v2-00d62c1b-ex2.gif)
+  <img src="demos/prk_examples/v2-00d62c1b-ex2.gif" width="250" alt="PRK v2 Example 2">
+  
   *Figure 15: PRK v2 Example 2 - Complex pattern propagation through multiple expert layers.*
   
-  ![PRK v2 Example 3](demos/prk_examples/v2-00d62c1b-ex3.gif)
+  <img src="demos/prk_examples/v2-00d62c1b-ex3.gif" width="250" alt="PRK v2 Example 3">
+  
   *Figure 16: PRK v2 Example 3 - Advanced state classification handling with center-change detection.*
   
-  ![PRK v2 Example 4](demos/prk_examples/v2-00d62c1b-ex4.gif)
+  <img src="demos/prk_examples/v2-00d62c1b-ex4.gif" width="250" alt="PRK v2 Example 4">
+  
   *Figure 17: PRK v2 Example 4 - Final training example showcasing full system capabilities.*
 
 **Note on Version 3 Representation**: In the development of PRK v3, Chinese characters were adopted for visualization purposes instead of emojis due to GIF generation compatibility issues. These characters serve purely as symbolic representations and provide sufficient visual diversity within single character constraints to effectively display the various PRK states and transformations.

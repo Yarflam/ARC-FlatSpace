@@ -348,3 +348,7 @@ The approach's natural extension to temporal problems positions it well for futu
 ---
 
 *This research paper provides a comprehensive framework for approaching ARC Prize challenges through novel representation methods. The flat space concept offers both theoretical advantages and practical implementation benefits for advancing artificial intelligence reasoning capabilities.*
+
+## License
+
+[MIT-0 Ethical](https://github.com/Yarflam/MIT-0-Ethical-License) - **Ethical Attribution Request (Non-Binding)**

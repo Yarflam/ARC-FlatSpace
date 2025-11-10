@@ -2,6 +2,8 @@
 
 **Research conducted by PIXMELT**
 
+*Note: This document was originally written in French and translated to English for broader accessibility. All content has been reviewed and validated by the research team.*
+
 ---
 
 ## Abstract

@@ -355,6 +355,21 @@ In the development of PRK v3, Chinese characters were adopted for visualization 
 - Insufficient representation of meta-rules governing transformations
 - Scaling constraints in version 2 implementation
 
+## Visualization Tools
+
+An interactive visualization tool was developed to better understand PRK system behavior and pattern analysis:
+
+**[PRK Interactive Visualizer](https://codepen.io/Yarflam/pen/wBKYyrB)** - CodePen Implementation
+
+This tool provides real-time visualization of:
+- PRK state classification in action
+- Local environment analysis (3x3 neighborhoods)
+- Diversity calculation visualization
+- Pattern propagation mechanisms
+- Interactive grid manipulation for testing different scenarios
+
+The visualizer helps demonstrate the deterministic nature of the PRK algorithm and provides insight into how local pixel environments influence transformation decisions.
+
 ## Legacy Impact
 
 The PRK system provided valuable insights into cellular automaton-based approaches for pattern transformation, particularly in understanding local environment analysis and propagation mechanisms. These insights contributed to the development of more sophisticated representation systems.
